@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Запись на прием{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="entry">
+        <div class="heading">
+            <h1>Запись на прием к врачу</h1>
+            <h2>Добро пожаловать в клинику RX! Мы рады помочь вам заботиться о вашем здоровье...</h2>
+        </div>
+        
+        <div class="entry_text">
+            <h3>Способы записи: </h3>
+            <ul>
+                <h3>1. Онлайн-запись</h3>
+                <li>Используйте нашу удобную форму онлайн-записи...</li>
+                <h3>2. Запись по телефону</h3>
+                <li>Вы можете записаться на прием, позвонив нам по телефону: (111) 123-45-67...</li>
+                <h3>3. Запись через мессенджеры</h3>
+                <li>Напишите нам в WhatsApp или Telegram по номеру (111) 123-45-67...</li>
+            </ul>
+        </div>
+        
+        <div class="entry_preparation">
+            <h3>Подготовка к приему:</h3>
+            <ul>
+                <h3>Для того чтобы ваш визит прошел максимально эффективно, рекомендуем:</h3>
+                <li>Принести все медицинские документы, результаты анализов и исследования...</li>
+                <li>Подготовить список вопросов или жалоб к врачу...</li>
+                <li>Если необходимо, возьмите с собой страховой полис и документ, удостоверяющий личность.</li>
+            </ul>
+        </div>
+        
+        <div class="entry_end">
+            <h1>Запись на прием к врачу</h1>
+            <div class="entry_forms">
+                <form method="post" class="entry_form">
+                    {% csrf_token %}
+                    <h2>Заполните форму</h2>
+                    <div class="entry_input">
+                        <input type="text" name="phone" placeholder="Введите свой номер телефона" required>
+                        <input type="text" name="name" placeholder="Введите свое имя" required>
+                        <input type="email" name="email" placeholder="Введите свою электронную почту" required>
+                        <select name="service" required>
+                            <option value="">Выберите услугу</option>
+                            {% for service in services %}
+                            <option value="{{ service.id }}">{{ service.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btnn">Отправить</button>
+                </form>
+                
+                <form method="post" class="entry_form">
+                    {% csrf_token %}
+                    <h2>Пожалуйста оставьте отзыв</h2>
+                    <div class="entry_input">
+                        <input type="text" name="review_name" placeholder="Введите свое имя">
+                        <input type="email" name="review_email" placeholder="Введите свою электронную почту">
+                        <select name="rating">
+                            <option value="very_good">Отлично</option>
+                            <option value="good">Хорошо</option>
+                            <option value="normal">Удовлетворительно</option>
+                            <option value="bad">Плохо</option>
+                            <option value="very_bad">Ужасно</option>
+                        </select>
+                        <textarea name="comment" rows="3" placeholder="Оставьте ваш комментарий"></textarea>
+                    </div>
+                    <button type="submit" class="button3">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

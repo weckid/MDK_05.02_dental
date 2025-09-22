@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Профиль{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="profile">
+        <div class="heading_profile">
+            <h1>Мой профиль</h1>
+        </div>
+        
+        <div class="data_profile">
+            <div class="image_profile">
+                <img src="{% static 'assets/image/profile.jpg' %}" alt="Фото профиля">
+                <div class="button_profile">
+                    <a href="#">Добавить фото</a>
+                </div>
+            </div>
+            
+            <div class="more_info">
+                <h2><span>Имя:</span>{{ user.first_name }}</h2>
+                <h2><span>Фамилия:</span>{{ user.last_name }}</h2>
+                <h2><span>Дата рождения:</span>{{ user.profile.birth_date|date:"d.m.Y" }}</h2>
+                <h2><span>Электронная почта:</span>{{ user.email }}</h2>
+                <h2><span>Номер телефона:</span>{{ user.profile.phone }}</h2>
+                <h2><span>Город:</span>{{ user.profile.city }}</h2>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

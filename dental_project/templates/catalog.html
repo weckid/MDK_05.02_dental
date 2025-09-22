@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Каталог услуг{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="catalog">
+        <div class="catalog_title">
+            <div class="heading">
+                <h1>Каталог</h1>
+            </div>
+            <ul class="list">
+                <li data-filter=".All">Все</li>
+                <li data-filter=".therapy">Терапевтическая стоматология</li>
+                <li data-filter=".surgical">Хирургическая стоматология</li>
+                <li data-filter=".medic">Лечение и реабилитация</li>
+                <li data-filter=".product">Товары</li>
+            </ul>
+        </div>
+        
+        <div class="content_cards">
+            {% for service in services %}
+            <div class="catalog_card All {{ service.category }}">
+                <img src="{% static service.image %}" alt="{{ service.name }}">
+                <div class="text_card_catalog">
+                    <h2>{{ service.name }}</h2>
+                    <p>{{ service.description }}</p>
+                    <h3>{{ service.price }} ₽</h3>
+                    <div class="button_card">
+                        <a href="{% url 'entry' %}">Записаться на прием</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/catalog.js' %}"></script>
+{% endblock %}
