@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Мой профиль{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="profile-hero">
+    <div class="container">
+        <h1 class="fade-in-up">Мой профиль</h1>
+        <p class="fade-in-up">Управляйте вашей персональной информацией и историей записей</p>
+    </div>
+</section>
+
+<!-- Основной контент профиля -->
+<section class="profile-section">
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-card fade-in-up">
+                <!-- Форма редактирования профиля -->
+                <form method="post" enctype="multipart/form-data" class="profile-form">
+                    {% csrf_token %}
+
+                    <div class="profile-content">
+                        <!-- Аватар и основная информация -->
+                        <div class="profile-avatar">
+                            <div class="avatar-container">
+                                <img src="{% if user.userprofile.avatar %}{{ user.userprofile.avatar.url }}{% else %}{% static 'img/profile.jpg' %}{% endif %}"
+                                     alt="Фото профиля" class="avatar-image" id="avatarPreview">
+                                <div class="avatar-overlay">
+                                    <span class="avatar-text">📷</span>
+                                </div>
+                            </div>
+                            <input type="file" name="avatar" id="avatarInput" accept="image/*" style="display: none;">
+                            <button type="button" class="avatar-upload" onclick="document.getElementById('avatarInput').click()">
+                                Сменить фото
+                            </button>
+                            {% if user.userprofile.avatar %}
+                            <button type="button" class="avatar-remove" onclick="removeAvatar()">
+                                Удалить фото
+                            </button>
+                            {% endif %}
+                        </div>
+
+                        <!-- Детальная информация -->
+                        <div class="profile-info">
+                            <div class="form-group">
+                                <label for="id_first_name" class="info-label">👤 Имя *</label>
+                                <input type="text" name="first_name" id="id_first_name"
+                                       value="{{ user.first_name|default:'' }}"
+                                       class="profile-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_last_name" class="info-label">👥 Фамилия *</label>
+                                <input type="text" name="last_name" id="id_last_name"
+                                       value="{{ user.last_name|default:'' }}"
+                                       class="profile-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_email" class="info-label">📧 Email *</label>
+                                <input type="email" name="email" id="id_email"
+                                       value="{{ user.email|default:'' }}"
+                                       class="profile-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_phone" class="info-label">📞 Телефон</label>
+                                <input type="tel" name="phone" id="id_phone"
+                                       value="{{ user.userprofile.phone|default:'' }}"
+                                       class="profile-input"
+                                       placeholder="+7 (999) 999-99-99">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_birth_date" class="info-label">🎂 Дата рождения</label>
+                                <input type="date" name="birth_date" id="id_birth_date"
+                                       value="{{ user.userprofile.birth_date|date:'Y-m-d'|default:'' }}"
+                                       class="profile-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_city" class="info-label">🏙️ Город</label>
+                                <input type="text" name="city" id="id_city"
+                                       value="{{ user.userprofile.city|default:'' }}"
+                                       class="profile-input"
+                                       placeholder="Ваш город">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_address" class="info-label">📍 Адрес</label>
+                                <textarea name="address" id="id_address"
+                                          class="profile-input profile-textarea"
+                                          placeholder="Ваш полный адрес">{{ user.userprofile.address|default:'' }}</textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="profile-save-btn">
+                                    💾 Сохранить изменения
+                                </button>
+                                <a href="{% url 'profile' %}" class="profile-cancel-btn">
+                                    ❌ Отмена
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- История записей -->
+                <div class="appointments-section">
+                    <h3 class="section-title">📋 Мои записи на прием</h3>
+
+                    {% if appointments %}
+                    <div class="appointments-list">
+                        {% for appointment in appointments %}
+                        <div class="appointment-card">
+                            <div class="appointment-header">
+                                <span class="appointment-service">{{ appointment.service.name }}</span>
+                                <span class="appointment-status status-{{ appointment.status }}">
+                                    {{ appointment.get_status_display }}
+                                </span>
+                            </div>
+                            <div class="appointment-details">
+                                <div>
+                                    <strong>👨‍⚕️ Врач:</strong><br>
+                                    {{ appointment.doctor.user.get_full_name }}
+                                </div>
+                                <div>
+                                    <strong>📅 Дата:</strong><br>
+                                    {{ appointment.appointment_date|date:"d.m.Y H:i" }}
+                                </div>
+                                <div>
+                                    <strong>🏥 Клиника:</strong><br>
+                                    {{ appointment.clinic.name }}
+                                </div>
+                            </div>
+                            {% if appointment.notes %}
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                                <strong>💬 Примечания:</strong><br>
+                                {{ appointment.notes }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div style="text-align: center; padding: 3rem; color: var(--text-light);">
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">У вас пока нет записей на прием</p>
+                        <a href="{% url 'catalog' %}" class="service-btn primary" style="display: inline-block;">Записаться на прием</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Дополнительные стили для формы профиля */
+.profile-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--white);
+}
+
+.profile-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.profile-textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.avatar-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.avatar-container:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-text {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.avatar-remove {
+    background: #ef4444;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.avatar-remove:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.profile-save-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    flex: 1;
+}
+
+.profile-save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.profile-cancel-btn {
+    background: var(--text-light);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    text-align: center;
+    flex: 1;
+}
+
+.profile-cancel-btn:hover {
+    background: #6b7280;
+    transform: translateY(-2px);
+    color: white;
+}
+</style>
+
+<script>
+// Предпросмотр аватара
+document.getElementById('avatarInput').addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('avatarPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+});
+
+// Удаление аватара
+function removeAvatar() {
+    if (confirm('Вы уверены, что хотите удалить фото профиля?')) {
+        document.getElementById('avatarPreview').src = '{% static "img/profile.jpg" %}';
+        // Здесь можно добавить AJAX запрос для удаления аватара с сервера
+    }
+}
+
+// Автосохранение при изменении аватара
+document.getElementById('avatarInput').addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+        // Автоматически отправляем форму при выборе файла
+        setTimeout(() => {
+            document.querySelector('.profile-form').submit();
+        }, 100);
+    }
+});
+</script>
+{% endblock %}

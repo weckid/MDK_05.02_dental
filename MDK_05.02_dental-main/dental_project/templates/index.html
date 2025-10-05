@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Стоматология премиум-класса{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="hero">
+    <div class="hero-content fade-in-up">
+        <h1>Стоматология RX</h1>
+        <h2>Современные технологии для вашей здоровой улыбки</h2>
+        <div class="hero-buttons">
+            <a href="{% url 'entry' %}" class="btn-primary">Записаться на прием</a>
+            <a href="{% url 'about' %}" class="btn-secondary">Узнать о нас</a>
+        </div>
+    </div>
+</section>
+
+<!-- Особенности -->
+<section class="features">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card fade-in-up">
+                <img src="{% static 'img/success.png' %}" alt="Опыт">
+                <h3>12+ лет опыта</h3>
+                <p>Более 12 лет успешной работы и тысячи довольных пациентов</p>
+            </div>
+            <div class="feature-card fade-in-up">
+                <img src="{% static 'img/success.png' %}" alt="Технологии">
+                <h3>Современное оборудование</h3>
+                <p>Используем передовые технологии из Европы и США</p>
+            </div>
+            <div class="feature-card fade-in-up">
+                <img src="{% static 'img/success.png' %}" alt="Специалисты">
+                <h3>Дипломированные врачи</h3>
+                <p>Команда специалистов со средним стажем работы 10+ лет</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

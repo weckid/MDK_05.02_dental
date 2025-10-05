@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - О нашей клинике{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="about-hero">
+    <div class="container">
+        <h1 class="fade-in-up">О клинике RX</h1>
+        <p class="fade-in-up">Современная стоматология, где ваше здоровье и комфорт - наш главный приоритет</p>
+    </div>
+</section>
+
+<!-- Слайдер -->
+<div class="container" style="padding: 4rem 0;">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="slider_img">
+                    <img src="{% static 'img/slider.png' %}" alt="Современное оборудование">
+                </div>
+                <div class="swiper_content">
+                    <h2>Инновационные технологии</h2>
+                    <p>Используем только современное оборудование для точной диагностики и эффективного лечения</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="slider_img">
+                    <img src="{% static 'img/slider1.png' %}" alt="Профессиональные врачи">
+                </div>
+                <div class="swiper_content">
+                    <h2>Опытные специалисты</h2>
+                    <p>Наши врачи регулярно проходят обучение и имеют международные сертификаты</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="slider_img">
+                    <img src="{% static 'img/slider2.png' %}" alt="Комфортные условия">
+                </div>
+                <div class="swiper_content">
+                    <h2>Комфортная атмосфера</h2>
+                    <p>Создали уютную обстановку, чтобы визит к стоматологу был максимально приятным</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</div>
+
+<!-- Статистика -->
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item fade-in-up">
+                <h3>12+</h3>
+                <p>Лет успешной работы</p>
+            </div>
+            <div class="stat-item fade-in-up">
+                <h3>15+</h3>
+                <p>Высококвалифицированных специалистов</p>
+            </div>
+            <div class="stat-item fade-in-up">
+                <h3>5000+</h3>
+                <p>Довольных пациентов в год</p>
+            </div>
+            <div class="stat-item fade-in-up">
+                <h3>99%</h3>
+                <p>Положительных отзывов</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- О компании -->
+<section class="features" style="background: var(--white);">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card fade-in-up">
+                <h3>Наша миссия</h3>
+                <p>Обеспечивать доступную и качественную стоматологическую помощь, используя передовые технологии и индивидуальный подход к каждому пациенту.</p>
+            </div>
+            <div class="feature-card fade-in-up">
+                <h3>Наши ценности</h3>
+                <p>Профессионализм, забота о пациентах, постоянное развитие и внедрение инновационных методов лечения.</p>
+            </div>
+            <div class="feature-card fade-in-up">
+                <h3>Наша философия</h3>
+                <p>Мы верим, что красивая улыбка - это не только эстетика, но и важная составляющая общего здоровья человека.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+        },
+        loop: true,
+        effect: 'fade',
+        fadeEffect: {
+            crossFade: true
+        },
+    });
+</script>
+{% endblock %}

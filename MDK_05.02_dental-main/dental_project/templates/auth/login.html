@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Вход в систему{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="auth-hero">
+    <div class="container">
+        <h1 class="fade-in-up">Вход в систему</h1>
+        <p class="fade-in-up">Войдите в свой аккаунт для доступа к персональным услугам</p>
+    </div>
+</section>
+
+<!-- Форма входа -->
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-card fade-in-up">
+                <h2>Добро пожаловать</h2>
+
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" class="auth-form">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_username">Имя пользователя или Email</label>
+                        <input type="text" name="username" id="id_username" placeholder="Введите ваш логин или email" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password">Пароль</label>
+                        <input type="password" name="password" id="id_password" placeholder="Введите ваш пароль" required>
+                    </div>
+
+                    {% if form.errors %}
+                    <div class="error">
+                        Неверное имя пользователя или пароль. Пожалуйста, попробуйте снова.
+                    </div>
+                    {% endif %}
+
+                    <button type="submit" class="auth-btn-submit">Войти в систему</button>
+                </form>
+
+                <div class="auth-links">
+                    <p>Нет аккаунта? <a href="{% url 'register' %}">Создать новый аккаунт</a></p>
+                    <p><a href="#" style="font-size: 0.9rem;">Забыли пароль?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RX - Стоматология{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/modern-style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.png' %}" alt="RX Стоматология">
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="{% url 'index' %}">Главная</a></li>
+                    <li><a href="{% url 'about' %}">О нас</a></li>
+                    <li><a href="{% url 'catalog' %}">Услуги</a></li>
+                    <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                    <li><a href="{% url 'entry' %}">Запись</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    {% if user.is_authenticated %}
+                    <div class="user-profile-nav">
+                        <a href="{% url 'profile' %}" class="user-avatar {% if user.userprofile.avatar %}has-image{% endif %}">
+                            {% if user.userprofile.avatar %}
+                                <img src="{{ user.userprofile.avatar.url }}" alt="Профиль" class="nav-avatar-img">
+                            {% else %}
+                                {{ user.first_name|first|default:"U" }}{{ user.last_name|first|default:"" }}
+                            {% endif %}
+                        </a>
+                        <a href="{% url 'logout' %}" class="logout-btn">Выйти</a>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="combined-auth-btn">
+                        <span>Войти / Регистрация</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>RX Стоматология</h3>
+                    <p>Современная стоматология для всей семьи. Мы заботимся о вашей улыбке с 2010 года.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>📞 +7 (111) 123-45-67</p>
+                    <p>📧 info@rx-dental.ru</p>
+                    <p>📍 г. Альметьевск, ул. Ленина, 123</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Часы работы</h3>
+                    <p>Пн-Пт: 9:00-21:00</p>
+                    <p>Сб-Вс: 10:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 RX Стоматология. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

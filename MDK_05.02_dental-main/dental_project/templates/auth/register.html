@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Регистрация{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="auth-hero">
+    <div class="container">
+        <h1 class="fade-in-up">Регистрация</h1>
+        <p class="fade-in-up">Создайте аккаунт для доступа ко всем возможностям нашей клиники</p>
+    </div>
+</section>
+
+<!-- Форма регистрации -->
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-card fade-in-up">
+                <h2>Создать аккаунт</h2>
+
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" class="auth-form">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="id_username">Имя пользователя *</label>
+                        <input type="text" name="username" id="id_username" placeholder="Придумайте логин" value="{{ form.username.value|default:'' }}" required>
+                        {% if form.username.help_text %}
+                        <span class="form-helptext">{{ form.username.help_text }}</span>
+                        {% endif %}
+                        {% if form.username.errors %}
+                        <div class="error">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_email">Email адрес *</label>
+                        <input type="email" name="email" id="id_email" placeholder="your@email.com" value="{{ form.email.value|default:'' }}" required>
+                        {% if form.email.errors %}
+                        <div class="error">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_first_name">Имя *</label>
+                        <input type="text" name="first_name" id="id_first_name" placeholder="Ваше имя" value="{{ form.first_name.value|default:'' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_last_name">Фамилия *</label>
+                        <input type="text" name="last_name" id="id_last_name" placeholder="Ваша фамилия" value="{{ form.last_name.value|default:'' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password1">Пароль *</label>
+                        <input type="password" name="password1" id="id_password1" placeholder="Создайте надежный пароль" required>
+                        {% if form.password1.help_text %}
+                        <div class="form-helptext">{{ form.password1.help_text }}</div>
+                        {% endif %}
+                        {% if form.password1.errors %}
+                        <div class="error">{{ form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password2">Подтверждение пароля *</label>
+                        <input type="password" name="password2" id="id_password2" placeholder="Повторите ваш пароль" required>
+                        {% if form.password2.errors %}
+                        <div class="error">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="auth-btn-submit">Создать аккаунт</button>
+                </form>
+
+                <div class="auth-links">
+                    <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти в систему</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

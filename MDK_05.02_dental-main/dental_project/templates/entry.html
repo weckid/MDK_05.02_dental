@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Запись на прием{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="entry-hero">
+    <div class="container">
+        <h1 class="fade-in-up">Запись на прием</h1>
+        <p class="fade-in-up">Выберите удобный способ записи и позаботьтесь о своей улыбке</p>
+    </div>
+</section>
+
+<!-- Основной контент -->
+<section class="entry-content">
+    <div class="container">
+        <!-- Способы записи -->
+        <div class="entry-section">
+            <h2>Способы записи на прием</h2>
+            <div class="entry-steps">
+                <div class="step-card fade-in-up">
+                    <div class="step-number">1</div>
+                    <h3>Онлайн запись</h3>
+                    <p>Заполните форму на сайте в любое удобное время</p>
+                </div>
+                <div class="step-card fade-in-up">
+                    <div class="step-number">2</div>
+                    <h3>По телефону</h3>
+                    <p>Позвоните нам: +7 (111) 123-45-67</p>
+                </div>
+                <div class="step-card fade-in-up">
+                    <div class="step-number">3</div>
+                    <h3>Мессенджеры</h3>
+                    <p>Напишите в WhatsApp или Telegram</p>
+                </div>
+                <div class="step-card fade-in-up">
+                    <div class="step-number">4</div>
+                    <h3>Личный визит</h3>
+                    <p>Приходите в нашу клинику</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подготовка к приему -->
+        <div class="entry-section">
+            <h2>Подготовка к приему</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <h3>📋 Документы</h3>
+                    <p>Принесите медицинскую карту, результаты анализов и предыдущие снимки</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <h3>💬 Вопросы</h3>
+                    <p>Подготовьте список вопросов и жалоб для обсуждения с врачом</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <h3>⏰ Время</h3>
+                    <p>Не употребляйте пищу за 1-2 часа до визита к стоматологу</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Формы -->
+        <div class="entry-section">
+            <h2>Онлайн запись</h2>
+            <div class="entry-forms">
+                <!-- Форма записи на прием -->
+                <form method="post" class="entry-form fade-in-up">
+                    {% csrf_token %}
+
+
+                <!-- Форма отзыва -->
+                <form method="post" class="entry-form fade-in-up" action="{% url 'create_review' %}">
+                    {% csrf_token %}
+                    <h3>⭐ Оставить отзыв</h3>
+
+                    <div class="form-group">
+                        <label for="review_name">Ваше имя *</label>
+                        <input type="text" id="review_name" name="review_name" placeholder="Анна Петрова" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="review_email">Email *</label>
+                        <input type="email" id="review_email" name="review_email" placeholder="anna@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rating">Оценка *</label>
+                        <select id="rating" name="rating" required>
+                            <option value="">Выберите оценку</option>
+                            <option value="5">⭐⭐⭐⭐⭐ Отлично</option>
+                            <option value="4">⭐⭐⭐⭐ Хорошо</option>
+                            <option value="3">⭐⭐⭐ Удовлетворительно</option>
+                            <option value="2">⭐⭐ Плохо</option>
+                            <option value="1">⭐ Ужасно</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Ваш отзыв *</label>
+                        <textarea id="comment" name="comment" rows="4" placeholder="Поделитесь вашими впечатлениями о нашем сервисе..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Отправить отзыв</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Контактная информация -->
+        <div class="entry-section" style="text-align: center;">
+            <h2>Другие способы связи</h2>
+            <div class="contact-grid" style="max-width: 800px; margin: 0 auto;">
+                <div class="contact-card">
+                    <h3>📞 Телефон</h3>
+                    <p>+7 (111) 123-45-67</p>
+                    <a href="tel:+71111234567" class="contact-btn">Позвонить</a>
+                </div>
+                <div class="contact-card">
+                    <h3>📧 Email</h3>
+                    <p>info@rx-dental.ru</p>
+                    <a href="mailto:info@rx-dental.ru" class="contact-btn">Написать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

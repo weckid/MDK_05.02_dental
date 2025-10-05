@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RX - Контакты и расположение{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="contacts-hero">
+    <div class="container">
+        <h1 class="fade-in-up">Наши контакты</h1>
+        <p class="fade-in-up">Мы всегда рады помочь вам и ответить на все вопросы</p>
+    </div>
+</section>
+
+<!-- Контактная информация -->
+<section class="contact-info">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-card fade-in-up">
+                <h3>📞 Свяжитесь с нами</h3>
+                <p><strong>Телефон:</strong> +7 (111) 123-45-67</p>
+                <p><strong>Email:</strong> info@rx-dental.ru</p>
+                <p><strong>Telegram:</strong> @rx_dental</p>
+                <p><strong>WhatsApp:</strong> +7 (111) 123-45-67</p>
+                <a href="tel:+71111234567" class="contact-btn">Позвонить сейчас</a>
+            </div>
+
+            <div class="contact-card fade-in-up">
+                <h3>📍 Адрес клиники</h3>
+                <p><strong>Основная клиника:</strong><br>г. Альметьевск, ул. Ленина, 123</p>
+                <p><strong>Часы работы:</strong><br>Пн-Пт: 9:00-21:00<br>Сб-Вс: 10:00-18:00</p>
+                <p><strong>Метро:</strong> Рядом с станцией "Центральная"</p>
+                <p><strong>Парковка:</strong> Бесплатная парковка для пациентов</p>
+                <a href="#map" class="contact-btn">Посмотреть на карте</a>
+            </div>
+
+            <div class="contact-card fade-in-up">
+                <h3>🕒 Запись на прием</h3>
+                <p>Записаться на прием можно любым удобным способом:</p>
+                <p>• Онлайн через сайт (круглосуточно)</p>
+                <p>• По телефону в рабочее время</p>
+                <p>• Через мессенджеры</p>
+                <p>• Лично в клинике</p>
+                <a href="{% url 'entry' %}" class="contact-btn">Онлайн запись</a>
+            </div>
+        </div>
+
+        <!-- Дополнительные филиалы -->
+        <div style="margin-top: 4rem;">
+            <h2 style="text-align: center; color: var(--medical-blue); margin-bottom: 2rem;">Наши филиалы</h2>
+            <div class="contact-grid">
+                {% for clinic in clinics %}
+                <div class="contact-card fade-in-up">
+                    <h3>{{ clinic.name }}</h3>
+                    <p><strong>Адрес:</strong><br>{{ clinic.address }}</p>
+                    <p><strong>Телефон:</strong><br>{{ clinic.phone }}</p>
+                    <p><strong>Email:</strong><br>{{ clinic.email }}</p>
+                    <p><strong>Часы работы:</strong><br>{{ clinic.working_hours }}</p>
+                    <div class="contact-button">
+                        <a href="{% url 'entry' %}" class="contact-btn">Записаться</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="contact-card fade-in-up">
+                    <h3>Основная клиника RX</h3>
+                    <p><strong>Адрес:</strong><br>г. Альметьевск, ул. Ленина, 123</p>
+                    <p><strong>Телефон:</strong><br>+7 (111) 123-45-67</p>
+                    <p><strong>Email:</strong><br>info@rx-dental.ru</p>
+                    <p><strong>Часы работы:</strong><br>Пн-Пт: 9:00-21:00<br>Сб-Вс: 10:00-18:00</p>
+                    <div class="contact-button">
+                        <a href="{% url 'entry' %}" class="contact-btn">Записаться</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Изображение клиники -->
+<!--        <div class="fade-in-up" style="text-align: center; margin: 4rem 0;">-->
+<!--            <img src="{% static 'img/contact.png' %}" alt="Наша клиника" style="max-width: 100%; height: auto; border-radius: var(&#45;&#45;radius); box-shadow: var(&#45;&#45;shadow-lg);">-->
+<!--        </div>-->
+    </div>
+</section>
+
+<!-- Карта -->
+<section id="map" style="padding: 2rem 0; background: var(--gray-light);">
+    <div class="container">
+        <h2 style="text-align: center; color: var(--medical-blue); margin-bottom: 2rem;">Мы на карте</h2>
+        <div style="border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg);">
+            <iframe src="https://yandex.ru/map-widget/v1/?ll=52.265735%2C54.899990&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NTg3MDg5NBKAAdCg0L7RgdGB0LjRjywg0KDQtdGB0L_Rg9Cx0LvQuNC60LAg0KLQsNGC0LDRgNGB0YLQsNC9ICjQotCw0YLQsNGA0YHRgtCw0L0pLCDQkNC70YzQvNC10YLRjNC10LLRgdC6LCDRg9C70LjRhtCwINCb0LXQvdC40L3QsCwgMTIzIgoNHRBRQhWXmVtC&source=serp_navig&z=17.12"
+                    width="100%" height="500" frameborder="0" allowfullscreen="true"></iframe>
+        </div>
+    </div>
+</section>
+{% endblock %}
